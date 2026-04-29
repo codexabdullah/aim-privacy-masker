@@ -15,7 +15,7 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the entire src folder content to /app
-COPY src/ .
+COPY . .
 
 # Expose port 8501 (jo logs mein show ho raha tha)
 EXPOSE 8501
