@@ -1,23 +1,24 @@
-# Use the official Python image
+# Use python image
 FROM python:3.9-slim
 
-# Set the working directory in the container
+# Set working directory
 WORKDIR /app
 
-# Install system dependencies for PyMuPDF
+# System dependencies for PDF processing
 RUN apt-get update && apt-get install -y \
     build-essential \
+    python3-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy the requirements file and install dependencies
+# Copy requirements and install
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the rest of the application code
-COPY . .
+# Copy the entire src folder content to /app
+COPY src/ .
 
-# Expose the port Streamlit runs on
-EXPOSE 7860
+# Expose port 8501 (jo logs mein show ho raha tha)
+EXPOSE 8501
 
-# Command to run the app on Hugging Face Spaces port
-CMD ["streamlit", "run", "app.py", "--server.port=7860", "--server.address=0.0.0.0"]
+# Force Streamlit to run on port 8501 and bind to all interfaces
+CMD ["streamlit", "run", "streamlit_app.py", "--server.port=8501", "--server.address=0.0.0.0"]
